@@ -15,14 +15,14 @@ void print_matrix(struct matrix *m) {
   int r;
   int c;
   for(r = 0; r < m->rows; r++){
-    printf("[");
+    printf("|");
     for(c = 0; c < m->cols; c++){
       if(c == m->cols - 1)
 	printf("%0.2f",m->m[r][c]);
       else
 	printf("%0.2f,",m->m[r][c]);
     }
-    printf("]\n");
+      printf("|\n");
   }
 }
 
@@ -55,7 +55,31 @@ Returns:
 a*b -> b
 */
 void matrix_mult(struct matrix *a, struct matrix *b) {
+  int acol;
+  int r;
+  int c;
+
+  if(a->cols != b->rows){
+    printf("Not a valid multiplication");
+    return;
+  }
+
+  struct matrix *b2;
+  b2 = new_matrix(b->rows,b->cols);
   
+  copy_matrix(b,b2);
+  
+  for(r = 0; r < b->rows;r++){
+    int sum = 0;
+    for(c = 0;c < b->cols;c++){
+      int sum = 0;
+      for(acol = 0; acol < a->cols;acol++){
+	sum += a->m[r][acol] * b2->m[acol][c];
+      }
+      b->m[r][c] = sum;
+    }
+  }
+
 
 }
 
