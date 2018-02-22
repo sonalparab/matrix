@@ -16,6 +16,16 @@ adds point (x, y, z) to points and increment points.lastcol
 if points is full, should call grow on points
 ====================*/
 void add_point( struct matrix * points, double x, double y, double z) {
+  //printf("Ran");
+  int c = points->cols;
+  int l = points->lastcol;
+  if(l == c){
+    grow_matrix(points,c + 1);
+  }
+  points->m[0][l] = x;
+  points->m[1][l] = y;
+  points->m[2][l] = z;
+  points->lastcol++;
 }
 
 /*======== void add_edge() ==========
@@ -28,6 +38,8 @@ should use add_point
 void add_edge( struct matrix * points, 
 	       double x0, double y0, double z0, 
 	       double x1, double y1, double z1) {
+  add_point(points,x0,y0,z0);
+  add_point(points,x1,y1,z1);
 }
 
 /*======== void draw_lines() ==========
@@ -38,7 +50,13 @@ Returns:
 Go through points 2 at a time and call draw_line to add that line
 to the screen
 ====================*/
-void draw_lines( struct matrix * points, screen s, color c) {
+void draw_lines( struct matrix * points, screen s, color c) {\
+  int i;
+  for(i = 0; i < points->cols/2;i++){
+    int j = i * 2;
+    draw_line((int)points->m[0][j],(int)points->m[1][j],(int)points->m[0][j+1],\
+	      (int)points->m[1][j+1],s,c);
+  }
 }
 
 

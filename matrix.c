@@ -43,7 +43,6 @@ void ident(struct matrix *m) {
 	m->m[r][c] = 0;
     }
   }
-  
 }
 
 
@@ -60,17 +59,18 @@ void matrix_mult(struct matrix *a, struct matrix *b) {
   int c;
 
   if(a->cols != b->rows){
-    printf("Not a valid multiplication");
+    printf("Not a valid multiplication\n");
     return;
   }
 
+  //make a copy of b to use for the multiplication
+  // as the result is stored in b
   struct matrix *b2;
   b2 = new_matrix(b->rows,b->cols);
   
   copy_matrix(b,b2);
   
   for(r = 0; r < b->rows;r++){
-    int sum = 0;
     for(c = 0;c < b->cols;c++){
       int sum = 0;
       for(acol = 0; acol < a->cols;acol++){
@@ -79,8 +79,6 @@ void matrix_mult(struct matrix *a, struct matrix *b) {
       b->m[r][c] = sum;
     }
   }
-
-
 }
 
 
